@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXCISTS `Yerothia`;
+CREATE DATABASE IF NOT EXISTS `Yerothia`;
 
 USE `Yerothia`;
 
