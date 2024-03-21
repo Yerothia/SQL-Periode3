@@ -1,8 +1,27 @@
 CREATE DATABASE IF NOT EXISTS `Yerothia`;
 
-
 USE `Yerothia`;
 
+DROP TABLE IF EXISTS `AutomatischeIncassos`;
+DROP TABLE IF EXISTS `Abonnementsorderregels`;
+DROP TABLE IF EXISTS `Abonnementen`;
+DROP TABLE IF EXISTS `Facturen`;
+DROP TABLE IF EXISTS `Services`;
+DROP TABLE IF EXISTS `Retouren`;
+DROP TABLE IF EXISTS `Orderregels`;
+DROP TABLE IF EXISTS `Orders`;
+DROP TABLE IF EXISTS `Adressen`;
+DROP TABLE IF EXISTS `Klanten`;
+DROP TABLE IF EXISTS `Accounts`;
+DROP TABLE IF EXISTS `Emails`;
+DROP TABLE IF EXISTS `Contacten`;
+DROP TABLE IF EXISTS `Betaalgegevens`;
+DROP TABLE IF EXISTS `Producten`;
+
+CREATE TABLE IF NOT EXISTS `Emails` (
+  `emailId` INT AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(255) UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Accounts` (
   `accountId` INT AUTO_INCREMENT PRIMARY KEY,
@@ -11,13 +30,6 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
   `accounttype` ENUM('Beheerder', 'Klant'),
   FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
 );
-
-
-CREATE TABLE IF NOT EXISTS `Emails` (
-  `emailId` INT AUTO_INCREMENT PRIMARY KEY,
-  `email` VARCHAR(255) UNIQUE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 CREATE TABLE IF NOT EXISTS `Contacten` (
   `contactId` INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,6 +77,12 @@ CREATE TABLE IF NOT EXISTS `Abonnementen` (
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `Producten` (
+  `productId` INT PRIMARY KEY AUTO_INCREMENT,
+  `naam` VARCHAR(255),
+  `omschrijving` TEXT,
+  `prijs` DECIMAL(10, 2)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Abonnementsorderregels` (
   `productId` INT,
@@ -78,15 +96,22 @@ CREATE TABLE IF NOT EXISTS `Abonnementsorderregels` (
   FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
+  `betaalId` INT PRIMARY KEY AUTO_INCREMENT,
+  `rekeningnummer` INT,
+  `betaalmethode` ENUM('creditcard', 'ideal', 'factuur', 'incasso'),
+  `betalingstype` ENUM('eenmalig', 'maandelijks', 'jaarlijks'),
+  `betaaldatum` DATE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `Automatische incasso's` (
+CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
   `abonnementId` INT,
   `betaalId` INT,
   `status` ENUM('Lopend', 'Betaald', 'Beëindigd', 'Mislukt', 'Geannuleerd'),
   `incassobedrag` DECIMAL(10, 2),
   PRIMARY KEY (`abonnementId`, `betaalId`),
   FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`),
-  FOREIGN KEY (`betaalId`) REFERENCES `Betalingen`(`betaalId`)
+  FOREIGN KEY (`betaalId`) REFERENCES `Betaalgegevens`(`betaalId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -99,13 +124,12 @@ CREATE TABLE IF NOT EXISTS `Orders` (
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 CREATE TABLE IF NOT EXISTS `Orderregels` (
+  `orderregelId` INT AUTO_INCREMENT PRIMARY KEY,
   `orderId` INT,
   `productId` INT,
   `factuurprijs` DECIMAL(10, 2),
   `aantal` INT,
-  PRIMARY KEY (`orderId`, `productId`),
   FOREIGN KEY (`orderId`) REFERENCES `Orders`(`orderId`),
   FOREIGN KEY (`productId`) REFERENCES `Producten`(`productId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -144,21 +168,3 @@ CREATE TABLE IF NOT EXISTS `Services` (
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
   FOREIGN KEY (`retourId`) REFERENCES `Retouren`(`retourId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
-  `betaalId` INT PRIMARY KEY AUTO_INCREMENT,
-  `rekeningnummer` INT,
-  `betaalmethode` ENUM('creditcard', 'ideal', 'factuur', 'incasso'),
-  `betalingstype` ENUM('eenmalig', 'maandelijks', 'jaarlijks'),
-  `betaaldatum` DATE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE IF NOT EXISTS `Producten` (
-  `productId` INT PRIMARY KEY AUTO_INCREMENT,
-  `naam` VARCHAR(255),
-  `omschrijving` TEXT,
-  `prijs` DECIMAL(10, 2)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
