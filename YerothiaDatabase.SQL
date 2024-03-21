@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS `Yerothia`;
 USE `Yerothia`;
 
 DROP TABLE IF EXISTS `AutomatischeIncassos`;
-DROP TABLE IF EXISTS `Abonnementsorderregels`;
+DROP TABLE IF EXISTS `AbonnementsProducten`;
 DROP TABLE IF EXISTS `Abonnementen`;
 DROP TABLE IF EXISTS `Facturen`;
 DROP TABLE IF EXISTS `Services`;
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `Producten` (
   `prijs` DECIMAL(10, 2)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `Abonnementsorderregels` (
+CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
   `productId` INT,
   `abonnementId` INT,
   `ingangsdatum` DATE,
