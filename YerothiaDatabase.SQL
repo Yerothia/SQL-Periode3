@@ -6,31 +6,52 @@ USE `Yerothia`;
 
 CREATE TABLE IF NOT EXISTS `Accounts` (
   `accountId` INT AUTO_INCREMENT PRIMARY KEY,
-  `email` VARCHAR(255),
+  `emailId` INT,
   `wachtwoord` VARCHAR(255),
   `accounttype` ENUM('Beheerder', 'Klant')
+  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Emails` (
+  `emailId` INT AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(255) UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS `Contacten` (
+  `contactId` INT AUTO_INCREMENT PRIMARY KEY,
+  `telefoonnummer` INT,
+  `contactpersoon` VARCHAR(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `Klanten` (
   `klantId` INT AUTO_INCREMENT PRIMARY KEY,
-  `kvkNummer` INT,
-  `contactpersoon` VARCHAR(255),
+  `kvkNummer` INT(8) UNSIGNED,
   `accountId` INT,
-  FOREIGN KEY (`accountId`) REFERENCES `Accounts`(`accountId`)
+  `contactId` INT,
+  `emailId` INT,
+  FOREIGN KEY (`accountId`) REFERENCES `Accounts`(`accountId`),
+  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`),
+  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `Adressen` (
   `adresId` INT AUTO_INCREMENT PRIMARY KEY,
   `vestigingsnaam` VARCHAR(255),
-  `postcode` VARCHAR(6),
+  `postcode` VARCHAR(10),
   `huisnummer` INT,
   `toevoeging` VARCHAR(10),
-  `telefoonnummer` VARCHAR(20),
   `klantId` INT,
-  FOREIGN KEY (`klantId`) REFERENCES `Klanten`(`klantId`)
+  `contactId` INT,
+  `emailId` INT,
+  FOREIGN KEY (`klantId`) REFERENCES `Klanten`(`klantId`),
+  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`),
+  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 CREATE TABLE IF NOT EXISTS `Abonnementen` (
@@ -61,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `Abonnementsorderregels` (
 CREATE TABLE IF NOT EXISTS `Automatische incasso's` (
   `abonnementId` INT,
   `betaalId` INT,
-  `status` INT,
+  `status` ENUM('Lopend', 'Betaald', 'Beëindigd', 'Mislukt', 'Geannuleerd'),
   `incassobedrag` DECIMAL(10, 2),
   PRIMARY KEY (`abonnementId`, `betaalId`),
   FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`),
@@ -71,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `Automatische incasso's` (
 
 CREATE TABLE IF NOT EXISTS `Orders` (
   `orderId` INT AUTO_INCREMENT PRIMARY KEY,
-  `status` ENUM('winkelmand', 'betaald', 'geleverd', 'geannuleerd'),
+  `status` ENUM('Wnkelmand', 'Betaald', 'Geleverd', 'Geannuleerd'),
   `totaalprijs` DECIMAL(10, 2),
   `orderdatum` DATE,
   `adresId` INT,
@@ -94,7 +115,7 @@ CREATE TABLE `Facturen` (
   `adresId` INT,
   `betaalId` INT,
   `orderId` INT,
-  `status` INT,
+  `status` ENUM('Open', 'Betaald', 'Vervallen', 'Geannuleerd'),
   `factuurbedrag` DECIMAL(10,2),
   PRIMARY KEY (`adresId`, `betaalId`, `orderId`),
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
@@ -117,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `Services` (
   `serviceId` INT AUTO_INCREMENT PRIMARY KEY,
   `servicetijdstip` DATETIME,
   `aanvraagdatum` DATE,
-  `servicetype` ENUM('serviceaanvraag', 'chataanvraag', 'retouraanvraag'), 
+  `servicetype` ENUM('Serviceaanvraag', 'Chataanvraag', 'Retouraanvraag'), 
   `adresId` INT,
   `retourId` INT DEFAULT NULL,
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
