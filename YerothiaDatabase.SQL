@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 CREATE DATABASE IF NOT EXISTS `Yerothia`;
 
 USE `Yerothia`;
@@ -168,3 +170,5 @@ CREATE TABLE IF NOT EXISTS `Services` (
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
   FOREIGN KEY (`retourId`) REFERENCES `Retouren`(`retourId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+COMMIT;
