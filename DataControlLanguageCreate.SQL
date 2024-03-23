@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 CREATE ROLE beheerder;
 CREATE ROLE medewerker;
 
@@ -12,5 +14,7 @@ GRANT medewerker TO Piet, Henk;
 
 GRANT INSERT, UPDATE, SELECT, DELETE ON Yerothia.* TO medewerker;
 GRANT ALL PRIVILEGES ON Yerothia.* TO beheerder;
+
+COMMIT;
 
 -- Alle betekent: Select Insert Delete Index Create Alter Drop Update Grant
