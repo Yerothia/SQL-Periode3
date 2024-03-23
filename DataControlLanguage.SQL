@@ -1,0 +1,16 @@
+CREATE ROLE beheerder;
+CREATE ROLE medewerker;
+
+CREATE USER Yetkin IDENTIFIED BY 'wachtwoord';
+CREATE USER Ronald IDENTIFIED BY 'wachtwoord';
+CREATE USER Thijs IDENTIFIED BY 'wachtwoord';
+CREATE USER Piet IDENTIFIED BY 'wachtwoord';
+CREATE USER Henk IDENTIFIED BY 'wachtwoord';
+
+GRANT beheerder TO Yetkin, Ronald, Thijs, Iain;
+GRANT medewerker TO Piet, Henk;
+
+GRANT INSERT, UPDATE, SELECT, DELETE ON * TO medewerker;
+GRANT ALL TO beheerder;
+
+-- Alle betekent: Select Insert Delete Index Create Alter Drop Update Grant
