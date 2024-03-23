@@ -10,7 +10,7 @@ CREATE USER Henk IDENTIFIED BY 'wachtwoord';
 GRANT beheerder TO Yetkin, Ronald, Thijs, Iain;
 GRANT medewerker TO Piet, Henk;
 
-GRANT INSERT, UPDATE, SELECT, DELETE ON * TO medewerker;
-GRANT ALL TO beheerder;
+GRANT INSERT, UPDATE, SELECT, DELETE ON Yerothia.* TO medewerker;
+GRANT ALL PRIVILEGES ON Yerothia.* TO beheerder;
 
 -- Alle betekent: Select Insert Delete Index Create Alter Drop Update Grant
