@@ -65,13 +65,12 @@ CREATE TABLE IF NOT EXISTS `Adressen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-
 CREATE TABLE IF NOT EXISTS `Abonnementen` (
   `abonnementId` INT AUTO_INCREMENT PRIMARY KEY,
   `naam` VARCHAR(255),
   `omschrijving` TEXT,
   `prijs` DECIMAL(10, 2),
-  `abonnementsperiode` VARCHAR(50),
+  `abonnementsperiode` ENUM('Maandelijks', 'Jaarlijks'),
   `capaciteit` INT,
   `adresId` INT,
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`)
@@ -87,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `Producten` (
 CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
   `productId` INT,
   `abonnementId` INT,
+  `afsluitdatum` DATE,
   `ingangsdatum` DATE,
-  `datum` DATE,
   `einddatum` DATE,
   `factuurprijs` DECIMAL(10, 2),
   PRIMARY KEY (`productId`, `abonnementId`),
@@ -99,8 +98,8 @@ CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
 CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
   `betaalId` INT PRIMARY KEY AUTO_INCREMENT,
   `rekeningnummer` INT,
-  `betaalmethode` ENUM('creditcard', 'ideal', 'factuur', 'incasso'),
-  `betalingstype` ENUM('eenmalig', 'maandelijks', 'jaarlijks'),
+  `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'Op rekening'),
+  `betalingstype` ENUM('Eenmalig', 'Maandelijks', 'Jaarlijks'),
   `betaaldatum` DATE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -139,7 +138,7 @@ CREATE TABLE `Facturen` (
   `adresId` INT,
   `betaalId` INT,
   `orderId` INT,
-  `status` ENUM('Open', 'Betaald', 'Vervallen', 'Geannuleerd'),
+  `status` ENUM('Open', 'Betaald', 'Vervallen', 'Mislukt', 'Geannuleerd'),
   `factuurbedrag` DECIMAL(10,2),
   PRIMARY KEY (`adresId`, `betaalId`, `orderId`),
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
