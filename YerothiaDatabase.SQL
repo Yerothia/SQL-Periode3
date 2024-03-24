@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
 
 CREATE TABLE IF NOT EXISTS `Orders` (
   `orderId` INT AUTO_INCREMENT PRIMARY KEY,
-  `status` ENUM('Wnkelmand', 'Betaald', 'Geleverd', 'Geannuleerd'),
+  `status` ENUM('Winkelmand', 'Betaald', 'Geleverd', 'Geannuleerd'),
   `totaalprijs` DECIMAL(10, 2),
   `orderdatum` DATE,
   `adresId` INT,
