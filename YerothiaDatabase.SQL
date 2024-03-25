@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
 CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
   `betaalId` INT PRIMARY KEY AUTO_INCREMENT,
   `rekeningnummer` INT,
-  `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'Op rekening'),
+  `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'OpRekening'),
   `betalingstype` ENUM('Eenmalig', 'Maandelijks', 'Jaarlijks'),
   `betaaldatum` DATE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
