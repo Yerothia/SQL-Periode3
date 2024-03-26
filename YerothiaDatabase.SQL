@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
   `wachtwoord` VARCHAR(255),
   `accounttype` ENUM('Beheerder', 'Klant'),
   FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
-);
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE IF NOT EXISTS `Contacten` (
   `contactId` INT AUTO_INCREMENT PRIMARY KEY,
@@ -167,3 +168,4 @@ CREATE TABLE IF NOT EXISTS `Services` (
   FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
   FOREIGN KEY (`retourId`) REFERENCES `Retouren`(`retourId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
