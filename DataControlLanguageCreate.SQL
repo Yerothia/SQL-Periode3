@@ -1,4 +1,4 @@
-BEGIN TRANSACTION;
+START TRANSACTION;
 
 CREATE ROLE beheerder;
 CREATE ROLE medewerker;
@@ -6,6 +6,7 @@ CREATE ROLE medewerker;
 CREATE USER Yetkin IDENTIFIED BY 'wachtwoord';
 CREATE USER Ronald IDENTIFIED BY 'wachtwoord';
 CREATE USER Thijs IDENTIFIED BY 'wachtwoord';
+CREATE USER Iain IDENTIFIED BY 'wachtwoord';
 CREATE USER Piet IDENTIFIED BY 'wachtwoord';
 CREATE USER Henk IDENTIFIED BY 'wachtwoord';
 
