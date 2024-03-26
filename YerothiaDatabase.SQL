@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
   `accountId` INT AUTO_INCREMENT PRIMARY KEY,
   `emailId` INT,
   `wachtwoord` VARCHAR(255),
-  `accounttype` ENUM('Beheerder', 'Klant'),
+  `accounttype` ENUM('Beheerder', 'Klant', 'Medewerker'),
   FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
