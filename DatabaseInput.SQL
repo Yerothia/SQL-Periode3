@@ -84,6 +84,7 @@ INSERT INTO `Producten` (`naam`, `omschrijving`, `prijs`) VALUES
 ('Product M', 'Omschrijving van product M', 139.99),
 ('Product N', 'Omschrijving van product N', 149.99);
 
+-- Voeg extra willekeurige factuurgegevens toe aan de tabel `AbbonementsProducten`
 INSERT INTO `AbonnementsProducten` (`productId`, `abonnementId`, `ingangsdatum`, `datum`, `einddatum`, `factuurprijs`) VALUES 
 (1, 3, '2024-03-01', '2024-03-01', '2024-04-01', 19.99),
 (2, 4, '2024-03-01', '2024-03-01', '2024-04-01', 89.99),
@@ -155,6 +156,7 @@ INSERT INTO `Facturen` (`adresId`, `betaalId`, `orderId`, `status`, `factuurbedr
 (13, 8, 8, 'Betaald', 189.99),
 (14, 9, 9, 'Betaald', 49.99);
 
+-- Voeg extra willekeurige factuurgegevens toe aan de tabel `Retouren`
 INSERT INTO `Retouren` (`reden`, `aanvraagdatum`, `retourdatum`, `orderregelId`) VALUES 
 ('Beschadigd product ontvangen', '2024-03-21', '2024-03-25', 1),
 ('Verkeerd product ontvangen', '2024-03-20', '2024-03-24', 2),
