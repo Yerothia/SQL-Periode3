@@ -85,7 +85,7 @@ INSERT INTO `Producten` (`naam`, `omschrijving`, `prijs`) VALUES
 ('Product N', 'Omschrijving van product N', 149.99);
 
 -- Voeg extra willekeurige factuurgegevens toe aan de tabel `AbbonementsProducten`
-INSERT INTO `AbonnementsProducten` (`productId`, `abonnementId`, `ingangsdatum`, `datum`, `einddatum`, `factuurprijs`) VALUES 
+INSERT INTO `AbonnementsProducten` (`productId`, `abonnementId`, `ingangsdatum`, `afsluitdatum`, `einddatum`, `factuurprijs`) VALUES 
 (1, 3, '2024-03-01', '2024-03-01', '2024-04-01', 19.99),
 (2, 4, '2024-03-01', '2024-03-01', '2024-04-01', 89.99),
 (3, 5, '2024-03-01', '2024-03-01', '2024-04-01', 39.99),
