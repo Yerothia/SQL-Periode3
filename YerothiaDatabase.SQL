@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `Klanten` (
   `accountId` INT,
   `contactId` INT,
   `emailId` INT,
-  FOREIGN KEY (`accountId`) REFERENCES `Accounts`(`accountId`),
-  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`),
-  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
+  FOREIGN KEY (`accountId`) REFERENCES `Accounts`(`accountId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -62,9 +62,9 @@ CREATE TABLE IF NOT EXISTS `Adressen` (
   `klantId` INT,
   `contactId` INT,
   `emailId` INT,
-  FOREIGN KEY (`klantId`) REFERENCES `Klanten`(`klantId`),
-  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`),
-  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
+  FOREIGN KEY (`klantId`) REFERENCES `Klanten`(`klantId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
   `einddatum` DATE,
   `factuurprijs` DECIMAL(10, 2),
   PRIMARY KEY (`productId`, `abonnementId`),
-  FOREIGN KEY (`productId`) REFERENCES `Producten`(`productID`),
-  FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`)
+  FOREIGN KEY (`productId`) REFERENCES `Producten`(`productID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
@@ -103,7 +103,8 @@ CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
   `rekeningnummer` INT,
   `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'OpRekening'),
   `betalingstype` ENUM('Eenmalig', 'Maandelijks', 'Jaarlijks'),
-  `betaaldatum` DATE
+  `betaaldatum` DATE,
+  FOREIGN KEY (`betaalId`) REFERENCES `Facturen`(`betaalId`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
@@ -112,8 +113,8 @@ CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
   `status` ENUM('Lopend', 'Betaald', 'Beëindigd', 'Mislukt', 'Geannuleerd'),
   `incassobedrag` DECIMAL(10, 2),
   PRIMARY KEY (`abonnementId`, `betaalId`),
-  FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`),
-  FOREIGN KEY (`betaalId`) REFERENCES `Betaalgegevens`(`betaalId`)
+  FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`betaalId`) REFERENCES `Betaalgegevens`(`betaalId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -132,10 +133,11 @@ CREATE TABLE IF NOT EXISTS `Orderregels` (
   `productId` INT,
   `factuurprijs` DECIMAL(10, 2),
   `aantal` INT,
-  FOREIGN KEY (`orderId`) REFERENCES `Orders`(`orderId`),
-  FOREIGN KEY (`productId`) REFERENCES `Producten`(`productId`)
+  FOREIGN KEY (`orderId`) REFERENCES `Orders`(`orderId`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  FOREIGN KEY (`productId`) REFERENCES `Producten`(`productId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+// Als je wilt dat een order wel geüpdatet kan worden maar nooit verwijderd mag worden
 
 CREATE TABLE `Facturen` (
   `adresId` INT,
@@ -144,9 +146,9 @@ CREATE TABLE `Facturen` (
   `status` ENUM('Open', 'Betaald', 'Vervallen', 'Mislukt', 'Geannuleerd'),
   `factuurbedrag` DECIMAL(10,2),
   PRIMARY KEY (`adresId`, `betaalId`, `orderId`),
-  FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
-  FOREIGN KEY (`betaalId`) REFERENCES `Betaalgegevens`(`betaalId`),
-  FOREIGN KEY (`orderId`) REFERENCES `Orders`(`orderId`)
+  FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`betaalId`) REFERENCES `Betaalgegevens`(`betaalId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`orderId`) REFERENCES `Orders`(`orderId`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -156,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `Retouren` (
   `aanvraagdatum` DATE,
   `retourdatum` DATE,
   `orderregelId` INT,
-  FOREIGN KEY (`orderregelId`) REFERENCES `Orderregels`(`orderregelId`)
+  FOREIGN KEY (`orderregelId`) REFERENCES `Orderregels`(`orderregelId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -167,8 +169,8 @@ CREATE TABLE IF NOT EXISTS `Services` (
   `servicetype` ENUM('Serviceaanvraag', 'Chataanvraag', 'Retouraanvraag'), 
   `adresId` INT,
   `retourId` INT DEFAULT NULL,
-  FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`),
-  FOREIGN KEY (`retourId`) REFERENCES `Retouren`(`retourId`)
+  FOREIGN KEY (`adresId`) REFERENCES `Adressen`(`adresId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (`retourId`) REFERENCES `Retouren`(`retourId`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 COMMIT;
