@@ -108,7 +108,6 @@ CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
 CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
   `abonnementId` INT,
   `betaalId` INT,
-  `betaaldatum` DATE,
   `status` ENUM('Lopend', 'Betaald', 'Beëindigd', 'Mislukt', 'Geannuleerd'),
   `incassobedrag` DECIMAL(10, 2),
   PRIMARY KEY (`abonnementId`, `betaalId`),
