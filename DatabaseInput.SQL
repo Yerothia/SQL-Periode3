@@ -1,3 +1,6 @@
+START TRANSACTION;
+
+USE `Yerothia`;
 
 -- Voeg extra willekeurige e-mailadressen toe aan de tabel `Emails`
 INSERT INTO `Emails` (`emailId`, `email`) VALUES 
@@ -36,16 +39,16 @@ INSERT INTO `Contacten` (`telefoonnummer`, `contactpersoon`) VALUES
 (963852741, 'Nathan Young');
 
 -- Voeg extra willekeurige klantgegevens toe aan de tabel `Klanten`
-INSERT INTO `Klanten` (`klantId`, `kvkNummer`, `accountId`, `contactId`, `emailId`) VALUES 
-(1, 34567891, 1, 1, 6),
-(2, 45678912, 2, 2, 7),
-(3, 56789123, 3, 3, 8),
-(4, 67891234, 4, 4, 9),
-(5, 78912345, 5, 5, 10),
-(6, 89123456, 6, 6, 11),
-(7, 91234567, 7, 7, 12),
-(8, 12345678, 8, 8, 13),
-(9, 23456789, 9, 9, 14);
+INSERT INTO `Klanten` (`klantId`, `kvkNummer`, `accountId`) VALUES 
+(1, 34567891, 1),
+(2, 45678912, 2),
+(3, 56789123, 3),
+(4, 67891234, 4),
+(5, 78912345, 5),
+(6, 89123456, 6),
+(7, 91234567, 7),
+(8, 12345678, 8),
+(9, 23456789, 9);
 
 
 -- Voeg extra willekeurige adresgegevens toe aan de tabel `Adressen`
