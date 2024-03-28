@@ -45,11 +45,7 @@ CREATE TABLE IF NOT EXISTS `Klanten` (
   `klantId` INT AUTO_INCREMENT PRIMARY KEY,
   `kvkNummer` INT(8) UNSIGNED,
   `accountId` INT,
-  `contactId` INT,
-  `emailId` INT,
-  FOREIGN KEY (`accountId`) REFERENCES `Accounts`(`accountId`),
-  FOREIGN KEY (`contactId`) REFERENCES `Contacten`(`contactId`),
-  FOREIGN KEY (`emailId`) REFERENCES `Emails`(`emailId`)
+  FOREIGN KEY (`accountId`) REFERENCES `Accounts`(`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
