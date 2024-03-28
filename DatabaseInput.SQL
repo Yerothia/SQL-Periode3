@@ -61,16 +61,16 @@ INSERT INTO `Adressen` (`adresId`, `vestigingsnaam`, `postcode`, `huisnummer`, `
 (14, 'Kantoor G', '3456ST', 14, 'N', 9, 9, 14);
 
 -- Voeg extra willekeurige abonnementsgegevens toe aan de tabel `Abonnementen`
-INSERT INTO `Abonnementen` (`abonnementId`, `naam`, `omschrijving`, `prijs`, `abonnementsperiode`, `capaciteit`, `adresId`) VALUES 
-(3, 'Extra', 'Extra abonnement', 69.99, 'Maandelijks', 150, 6),
-(4, 'Deluxe', 'Deluxe abonnement', 129.99, 'Maandelijks', 300, 7),
-(5, 'Starter', 'Starter abonnement', 19.99, 'Maandelijks', 25, 8),
-(6, 'Essential', 'Essential abonnement', 89.99, 'Maandelijks', 200, 9),
-(7, 'Basic Plus', 'Basic Plus abonnement', 39.99, 'Maandelijks', 75, 10),
-(8, 'Elite', 'Elite abonnement', 179.99, 'Maandelijks', 600, 11),
-(9, 'Light', 'Light abonnement', 9.99, 'Maandelijks', 10, 12),
-(10, 'Premium Plus', 'Premium Plus abonnement', 149.99, 'Maandelijks', 400, 13),
-(11, 'Advanced', 'Advanced abonnement', 59.99, 'Maandelijks', 125, 14);
+INSERT INTO `Abonnementen` (`abonnementId`, `naam`, `omschrijving`, `prijs`, `ingangsdatum`, `afsluitdatum`, `abonnementsperiode`, `capaciteit`, `adresId`) VALUES 
+(3, 'Extra', 'Extra abonnement', 69.99, '2024-03-01', '2024-03-01', 'Maandelijks', 150, 6),
+(4, 'Deluxe', 'Deluxe abonnement', 129.99, '2024-03-01', '2024-03-01', 'Maandelijks', 300, 7),
+(5, 'Starter', 'Starter abonnement', 19.99, '2024-03-01', '2024-03-01', 'Maandelijks', 25, 8),
+(6, 'Essential', 'Essential abonnement', 89.99, '2024-03-01', '2024-03-01', 'Maandelijks', 200, 9),
+(7, 'Basic Plus', 'Basic Plus abonnement', 39.99, '2024-03-01', '2024-03-01', 'Maandelijks', 75, 10),
+(8, 'Elite', 'Elite abonnement', 179.99, '2024-03-01', '2024-03-01', 'Maandelijks', 600, 11),
+(9, 'Light', 'Light abonnement', 9.99, '2024-03-01', '2024-03-01', 'Maandelijks', 10, 12),
+(10, 'Premium Plus', 'Premium Plus abonnement', 149.99, '2024-03-01', '2024-03-01', 'Maandelijks', 400, 13),
+(11, 'Advanced', 'Advanced abonnement', 59.99, '2024-03-02', '2024-03-02', 'Maandelijks', 125, 14);
 
 -- Voeg extra willekeurige productgegevens toe aan de tabel `Producten`
 INSERT INTO `Producten` (`naam`, `omschrijving`, `prijs`) VALUES 
@@ -85,16 +85,16 @@ INSERT INTO `Producten` (`naam`, `omschrijving`, `prijs`) VALUES
 ('Product N', 'Omschrijving van product N', 149.99);
 
 -- Voeg extra willekeurige factuurgegevens toe aan de tabel `AbbonementsProducten`
-INSERT INTO `AbonnementsProducten` (`productId`, `abonnementId`, `ingangsdatum`, `afsluitdatum`, `einddatum`, `factuurprijs`) VALUES 
-(1, 3, '2024-03-01', '2024-03-01', '2024-04-01', 19.99),
-(2, 4, '2024-03-01', '2024-03-01', '2024-04-01', 89.99),
-(3, 5, '2024-03-01', '2024-03-01', '2024-04-01', 39.99),
-(4, 6, '2024-03-01', '2024-03-01', '2024-04-01', 179.99),
-(5, 7, '2024-03-01', '2024-03-01', '2024-04-01', 9.99),
-(6, 8, '2024-03-01', '2024-03-01', '2024-04-01', 149.99),
-(7, 9, '2024-03-01', '2024-03-01', '2024-04-01', 59.99),
-(8, 10, '2024-03-01', '2024-03-01', '2024-04-01', 125.99),
-(9, 11, '2024-03-02', '2024-03-02', '2024-04-02', 312.95);
+INSERT INTO `AbonnementsProducten` (`productId`, `abonnementId`, `aantal`) VALUES 
+(1, 3, 10),
+(2, 4, 5),
+(3, 5, 3),
+(4, 6, 8),
+(5, 7, 7),
+(6, 8, 6),
+(7, 9, 5),
+(8, 10, 10),
+(9, 11, 20);
 
 -- Voeg extra willekeurige betaalgegevens toe aan de tabel `Betaalgegevens`
 INSERT INTO `Betaalgegevens` (`betaalId`, `rekeningnummer`, `betaalmethode`, `betalingstype`, `betaaldatum`) VALUES 

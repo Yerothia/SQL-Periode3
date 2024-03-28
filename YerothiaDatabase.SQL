@@ -73,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `Abonnementen` (
   `naam` VARCHAR(255),
   `omschrijving` TEXT,
   `prijs` DECIMAL(10, 2),
+  `afsluitdatum` DATE,
+  `ingangsdatum` DATE,
   `abonnementsperiode` ENUM('Maandelijks', 'Jaarlijks'),
   `capaciteit` INT,
   `adresId` INT,
@@ -89,10 +91,7 @@ CREATE TABLE IF NOT EXISTS `Producten` (
 CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
   `productId` INT,
   `abonnementId` INT,
-  `afsluitdatum` DATE,
-  `ingangsdatum` DATE,
-  `einddatum` DATE,
-  `factuurprijs` DECIMAL(10, 2),
+  `aantal` INT,
   PRIMARY KEY (`productId`, `abonnementId`),
   FOREIGN KEY (`productId`) REFERENCES `Producten`(`productID`),
   FOREIGN KEY (`abonnementId`) REFERENCES `Abonnementen`(`abonnementId`)
@@ -109,6 +108,7 @@ CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
 CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
   `abonnementId` INT,
   `betaalId` INT,
+  `betaaldatum` DATE,
   `status` ENUM('Lopend', 'Betaald', 'Beëindigd', 'Mislukt', 'Geannuleerd'),
   `incassobedrag` DECIMAL(10, 2),
   PRIMARY KEY (`abonnementId`, `betaalId`),
