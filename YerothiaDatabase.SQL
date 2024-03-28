@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
   `rekeningnummer` INT NOT NULL,
   `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'OpRekening') NOT NULL,
   `betalingstype` ENUM('Eenmalig', 'Maandelijks', 'Jaarlijks') NOT NULL,
-  `betaaldatum` DATE,
+  `betaaldatum` DATE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `Orders` (
   FOREIGN KEY (`adresId`) 
     REFERENCES `Adressen`(`adresId`)
     ON UPDATE CASCADE
-    ON DELETE RESTRICT,
+    ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Orderregels` (
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `Orderregels` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Facturen` (
-  `factuurId` INT AUTO_INCREMENT PRIMARY KEY
+  `factuurId` INT AUTO_INCREMENT PRIMARY KEY,
   `adresId` INT,
   `betaalId` INT,
   `orderId` INT NOT NULL,
