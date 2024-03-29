@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
   `accountId` INT AUTO_INCREMENT PRIMARY KEY,
   `emailId` INT NOT NULL,
   `wachtwoord` VARCHAR(255),
-  `accounttype` ENUM('Beheerder', 'Klant', 'Medewerker'),
+  `accounttype` ENUM('Beheerder', 'Klant', 'Medewerker') NOT NULL,
   FOREIGN KEY (`emailId`) 
     REFERENCES `Emails`(`emailId`)
     ON UPDATE CASCADE
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
 
 CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
   `betaalId` INT PRIMARY KEY AUTO_INCREMENT,
-  `rekeningnummer` INT NOT NULL,
+  `rekeningnummer` VARCHAR(34) NOT NULL,
   `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'OpRekening') NOT NULL,
   `betalingstype` ENUM('Eenmalig', 'Maandelijks', 'Jaarlijks') NOT NULL,
   `betaaldatum` DATE
