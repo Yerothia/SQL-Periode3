@@ -33,3 +33,5 @@ FROM `Orders`
 INNER JOIN `Adressen`ON `Adressen`.`adresId` = `Orders`.`adresId`
 GROUP BY `orderId`
 HAVING SUM(`totaalprijs`) > 1000;
+
+SELECT DISTINCT `abonnementsperiode` FROM `abonnementen`
