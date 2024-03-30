@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
 CREATE TABLE IF NOT EXISTS `Orders` (
   `orderId` INT AUTO_INCREMENT PRIMARY KEY,
   `status` ENUM('Winkelmand', 'Betaald', 'Geleverd', 'Geannuleerd') NOT NULL,
-  `totaalprijs` DECIMAL(10, 2),
+  `totaalprijs` DECIMAL(10, 2) DEFAULT 0,
   `orderdatum` DATE,
   `adresId` INT NOT NULL,
   FOREIGN KEY (`adresId`) 
@@ -179,7 +179,7 @@ CREATE TABLE `Facturen` (
   FOREIGN KEY (`adresId`) 
     REFERENCES `Adressen`(`adresId`) 
     ON UPDATE CASCADE
-    ON DELETE SET NULL,
+    ON DELETE RESTRICT,
   FOREIGN KEY (`betaalId`) 
     REFERENCES `Betaalgegevens`(`betaalId`) 
     ON UPDATE CASCADE

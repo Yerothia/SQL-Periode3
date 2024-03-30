@@ -21,6 +21,37 @@ END;
 
 DELIMITER ;
 
+CREATE TRIGGER `set_factuurprijs` BEFORE INSERT ON `Orderregels`
+BEGIN
+    DECLARE factuurprijs DECIMAL;
+
+    SELECT `Producten`.`prijs` 
+        INTO factuurprijs
+        FROM `Producten` 
+        WHERE `Producten`.`productId` = NEW.productId;
+    
+    SET NEW.factuurprijs = factuurprijs;
+END;
+
+CREATE TRIGGER `update_order_prices` AFTER INSERT ON `Orderregels`
+BEGIN
+    DECLARE old_totaalprijs DECIMAL;
+    
+
+    SELECT `Producten`.`prijs` 
+        INTO factuurprijs
+        FROM `Producten` 
+        WHERE `Producten`.`productId` = NEW.productId;
+
+    
+
+    SELECT `totaalprijs` 
+        INTO old_totaalprijs 
+        FROM `Orders` 
+        WHERE `Orders`.`orderId` = `Orderregels`.`orderId`;
+    UPDATE `Orders` SET `totaalprijs` = (old_totaalprijs + (NEW.aantal * NEW.factuurprijs)); 
+END;
+
 -- Stored procedure --
 -- Hiermee kan je de prijs updaten op het moment dat je de productId en de nieuwe prijs doorgeeft wanneer je de procedure uitvoert --
 -- Terug te vinden onder het Yerothia datbase en dan Routines --
