@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
   `accountId` INT AUTO_INCREMENT PRIMARY KEY,
   `emailId` INT NOT NULL,
   `wachtwoord` VARCHAR(255),
-  `accounttype` ENUM('Beheerder', 'Klant', 'Medewerker'),
+  `accounttype` ENUM('Beheerder', 'Klant', 'Medewerker') NOT NULL,
   FOREIGN KEY (`emailId`) 
     REFERENCES `Emails`(`emailId`)
     ON UPDATE CASCADE
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `AbonnementsProducten` (
 
 CREATE TABLE IF NOT EXISTS `Betaalgegevens` (
   `betaalId` INT PRIMARY KEY AUTO_INCREMENT,
-  `rekeningnummer` INT NOT NULL,
+  `rekeningnummer` VARCHAR(34) NOT NULL,
   `betaalmethode` ENUM('Creditcard', 'iDEAL', 'Factuur', 'Incasso', 'OpRekening') NOT NULL,
   `betalingstype` ENUM('Eenmalig', 'Maandelijks', 'Jaarlijks') NOT NULL,
   `betaaldatum` DATE
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `AutomatischeIncassos` (
 CREATE TABLE IF NOT EXISTS `Orders` (
   `orderId` INT AUTO_INCREMENT PRIMARY KEY,
   `status` ENUM('Winkelmand', 'Betaald', 'Geleverd', 'Geannuleerd') NOT NULL,
-  `totaalprijs` DECIMAL(10, 2),
+  `totaalprijs` DECIMAL(10, 2) DEFAULT 0,
   `orderdatum` DATE,
   `adresId` INT NOT NULL,
   FOREIGN KEY (`adresId`) 
@@ -152,6 +152,28 @@ CREATE TABLE IF NOT EXISTS `Orders` (
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `Facturen` (
+  `factuurId` INT AUTO_INCREMENT PRIMARY KEY,
+  `adresId` INT,
+  `betaalId` INT,
+  `orderId` INT NOT NULL,
+  `status` ENUM('Open', 'Betaald', 'Vervallen', 'Mislukt', 'Geannuleerd'),
+  `factuurbedrag` DECIMAL(10,2) DEFAULT 0,
+  FOREIGN KEY (`adresId`) 
+    REFERENCES `Adressen`(`adresId`) 
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+  FOREIGN KEY (`betaalId`) 
+    REFERENCES `Betaalgegevens`(`betaalId`) 
+    ON UPDATE CASCADE
+    ON DELETE SET NULL, 
+  FOREIGN KEY (`orderId`) 
+    REFERENCES `Orders`(`orderId`) 
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE IF NOT EXISTS `Orderregels` (
   `orderregelId` INT AUTO_INCREMENT PRIMARY KEY,
@@ -167,27 +189,6 @@ CREATE TABLE IF NOT EXISTS `Orderregels` (
     REFERENCES `Producten`(`productId`) 
     ON UPDATE CASCADE
     ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `Facturen` (
-  `factuurId` INT AUTO_INCREMENT PRIMARY KEY,
-  `adresId` INT,
-  `betaalId` INT,
-  `orderId` INT NOT NULL,
-  `status` ENUM('Open', 'Betaald', 'Vervallen', 'Mislukt', 'Geannuleerd'),
-  `factuurbedrag` DECIMAL(10,2),
-  FOREIGN KEY (`adresId`) 
-    REFERENCES `Adressen`(`adresId`) 
-    ON UPDATE CASCADE
-    ON DELETE SET NULL,
-  FOREIGN KEY (`betaalId`) 
-    REFERENCES `Betaalgegevens`(`betaalId`) 
-    ON UPDATE CASCADE
-    ON DELETE SET NULL, 
-  FOREIGN KEY (`orderId`) 
-    REFERENCES `Orders`(`orderId`) 
-    ON UPDATE CASCADE
-    ON DELETE RESTRICT 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Retouren` (
