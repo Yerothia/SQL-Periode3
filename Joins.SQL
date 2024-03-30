@@ -32,6 +32,7 @@ SELECT `Adressen`.`vestigingsnaam`, COUNT(*) AS `Totale orders`, SUM(`totaalprij
 FROM `Orders`
 INNER JOIN `Adressen`ON `Adressen`.`adresId` = `Orders`.`adresId`
 GROUP BY `orderId`
-HAVING SUM(`totaalprijs`) > 1000;
+HAVING SUM(`totaalprijs`) > 1000
+ORDER BY `totaal betaald` DESC;
 
 SELECT DISTINCT `abonnementsperiode` FROM `abonnementen`
