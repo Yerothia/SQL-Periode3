@@ -45,6 +45,26 @@ DELIMITER ;
 
 CALL update_prijs(p_productId, p_newPrice);
 
+DROP FUNCTION IF EXISTS `get_most_orders_in_month`;
+
+DELIMITER //
+
+CREATE FUNCTION `get_most_orders_in_month`()
+RETURNS INT
+BEGIN
+    DECLARE month_number INT;
+    SELECT MONTH(`orderdatum`) INTO month_number
+    FROM `Orders`
+    GROUP BY MONTH(`orderdatum`)
+    ORDER BY COUNT(*) DESC
+    LIMIT 1;
+    RETURN month_number;
+END //
+
+DELIMITER ;
+
+CALL get_most_orders_in_month;
+
 
 -- INNER JOIN --
 -- Toont emails langs het KvK-nummer --
