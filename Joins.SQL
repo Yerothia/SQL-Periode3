@@ -27,3 +27,9 @@ FROM `Klanten`
 INNER JOIN `Adressen` ON `Klanten`.`klantId` = `Adressen`.`klantId`
 GROUP BY `Klanten`.`kvkNummer`
 HAVING COUNT(*) > 1;
+
+SELECT `Adressen`.`vestigingsnaam`, COUNT(*) AS `Totale orders`, SUM(`totaalprijs`) AS `totaal betaald`
+FROM `Orders`
+INNER JOIN `Adressen`ON `Adressen`.`adresId` = `Orders`.`adresId`
+GROUP BY `orderId`
+HAVING SUM(`totaalprijs`) > 1000;
