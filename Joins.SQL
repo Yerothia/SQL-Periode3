@@ -1,3 +1,5 @@
+USE `Yerothia`;
+
 -- INNER JOIN --
 -- Toont emails langs het KvK-nummer --
 SELECT klanten.kvkNummer, emails.email
@@ -35,4 +37,4 @@ GROUP BY `orderId`
 HAVING SUM(`totaalprijs`) > 1000
 ORDER BY `totaal betaald` DESC;
 
-SELECT DISTINCT `abonnementsperiode` FROM `abonnementen`
+SELECT DISTINCT `abonnementsperiode` FROM `abonnementen`;
