@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `Services` (
   `serviceId` INT AUTO_INCREMENT PRIMARY KEY,
   `servicetijdstip` DATETIME,
   `aanvraagdatum` DATE,
-  `servicetype` ENUM('Serviceaanvraag', 'Chataanvraag', 'Retouraanvraag'), 
+  `soortservice` ENUM('Serviceaanvraag', 'Chataanvraag', 'Retouraanvraag'), 
   `adresId` INT NOT NULL,
   `retourId` INT DEFAULT NULL,
   FOREIGN KEY (`adresId`) 
@@ -221,4 +221,8 @@ CREATE TABLE IF NOT EXISTS `Services` (
     ON DELETE SET NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE `Services`
+  CHANGE COLUMN `soortservice` `servicetype` ENUM('Serviceaanvraag', 'Chataanvraag', 'Retouraanvraag');
+
 COMMIT;
+
