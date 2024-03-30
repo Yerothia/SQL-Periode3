@@ -149,7 +149,7 @@ INSERT INTO `AutomatischeIncassos` (`betaalId`, `abonnementId`, `status`, `incas
 
 -- Voeg extra willekeurige ordergegevens toe aan de tabel `Orders`
 INSERT INTO `Orders` (`orderId`, `status`, `orderdatum`, `adresId`) VALUES 
-(1, 'Geleverd',  '2024-03-20', 1),
+(1, 'Geleverd', '2024-03-20', 1),
 (2, 'Betaald','2024-03-18', 2),
 (3, 'Winkelmand', '2024-03-16', 3),
 (4, 'Betaald', '2024-03-14', 4),

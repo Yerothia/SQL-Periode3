@@ -5,8 +5,6 @@
 -- Trigger is terug te vinden onder de Triggers van het Facturen-tabel --
 USE `Yerothia`;
 
-START TRANSACTION;
-
 DROP TRIGGER IF EXISTS `update_order_status`;
 DROP TRIGGER IF EXISTS `set_factuurprijs`;
 DROP TRIGGER IF EXISTS `update_order_prices`;
@@ -104,6 +102,4 @@ BEGIN
 END //
 
 DELIMITER ;
-
-COMMIT;
 
