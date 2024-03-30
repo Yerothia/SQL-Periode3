@@ -162,6 +162,21 @@ INSERT INTO `Orders` (`orderId`, `status`, `orderdatum`, `adresId`) VALUES
 (11, 'Geleverd', '2024-03-20', 11),
 (12, 'Geleverd', '2024-03-20', 12);
 
+-- Voeg extra willekeurige factuurgegevens toe aan de tabel `Facturen`
+INSERT INTO `Facturen` (`adresId`, `betaalId`, `orderId`, `status`) VALUES 
+(1, 1, 1, 'Betaald'),
+(2, 2, 2, 'Betaald'),
+(3, 3, 3, 'Mislukt'),
+(4, 4, 4, 'Betaald'),
+(5, 5, 5, 'Betaald'),
+(6, 6, 6, 'Open'),
+(7, 7, 7, 'Vervallen'),
+(8, 8, 8, 'Open'),
+(9, 9, 9, 'Geannuleerd'),
+(1, 1, 10, 'Betaald'),
+(1, 1, 11, 'Betaald'),
+(1, 1, 12, 'Betaald');
+
 -- Voeg extra willekeurige orderregelgegevens toe aan de tabel `Orderregels`
 INSERT INTO `Orderregels` (`orderId`, `productId`, `aantal`) VALUES 
 (1, 1, 1),
@@ -176,22 +191,6 @@ INSERT INTO `Orderregels` (`orderId`, `productId`, `aantal`) VALUES
 (10, 1, 3),
 (11, 1, 3),
 (12, 1, 5);
-
-
--- Voeg extra willekeurige factuurgegevens toe aan de tabel `Facturen`
-INSERT INTO `Facturen` (`adresId`, `betaalId`, `orderId`, `status`, `factuurbedrag`) VALUES 
-(1, 1, 1, 'Betaald', 129.99),
-(2, 2, 2, 'Betaald', 159.99),
-(3, 3, 3, 'Mislukt', 59.99),
-(4, 4, 4, 'Betaald', 79.99),
-(5, 5, 5, 'Betaald', 99.99),
-(6, 6, 6, 'Open', 139.99),
-(7, 7, 7, 'Vervallen', 19.99),
-(8, 8, 8, 'Open', 189.99),
-(9, 9, 9, 'Geannuleerd', 49.99),
-(1, 1, 10, 'Betaald', 129.99),
-(1, 1, 11, 'Betaald', 129.99),
-(1, 1, 12, 'Betaald', 129.99);
 
 -- Voeg extra willekeurige factuurgegevens toe aan de tabel `Retouren`
 INSERT INTO `Retouren` (`reden`, `aanvraagdatum`, `retourdatum`, `orderregelId`) VALUES 

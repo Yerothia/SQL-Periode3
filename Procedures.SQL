@@ -10,6 +10,7 @@ START TRANSACTION;
 DROP TRIGGER IF EXISTS `update_order_status`;
 DROP TRIGGER IF EXISTS `set_factuurprijs`;
 DROP TRIGGER IF EXISTS `update_order_prices`;
+DROP TRIGGER IF EXISTS `update_factuurbedrag`;
 DROP PROCEDURE IF EXISTS `update_prijs`;
 DROP FUNCTION IF EXISTS `get_most_orders_in_month`;
 
@@ -56,6 +57,18 @@ BEGIN
     -- Update de totaalprijs van de bestelling in de Orders tabel
     UPDATE `Orders` SET `totaalprijs` = new_total
     WHERE `orderId` = NEW.orderId;
+END;
+
+//
+
+CREATE TRIGGER `update_factuurbedrag` AFTER UPDATE ON `Orders`
+FOR EACH ROW
+BEGIN
+    IF OLD.totaalprijs <> NEW.totaalprijs THEN
+        UPDATE `Facturen` 
+            SET `factuurbedrag` = NEW.totaalprijs
+            WHERE `orderId` = NEW.orderId; 
+    END IF;
 END;
 
 //
