@@ -21,3 +21,9 @@ FROM orders
 INNER JOIN facturen ON facturen.orderId = orders.orderId
 INNER JOIN adressen ON facturen.adresId = adressen.adresId
 INNER JOIN contacten ON contacten.contactId = adressen.contactId;
+
+SELECT `Klanten`.`kvkNummer`, COUNT(*) AS 'Aantal vestigingen'
+FROM `Klanten`
+INNER JOIN `Adressen` ON `Klanten`.`klantId` = `Adressen`.`klantId`
+GROUP BY `Klanten`.`kvkNummer`
+HAVING COUNT(*) > 1;
