@@ -3,7 +3,15 @@
 -- Trigger --
 -- Als status van factuur, bijvoorbeeld een "Open" factuur, wordt gewijzigd naar "Betaald" dan wordt deze in het Orders-tabel ook omgezet naar "Betaald". --
 -- Trigger is terug te vinden onder de Triggers van het Facturen-tabel --
+USE `Yerothia`;
+
+START TRANSACTION;
+
 DROP TRIGGER IF EXISTS `update_order_status`;
+DROP TRIGGER IF EXISTS `set_factuurprijs`;
+DROP TRIGGER IF EXISTS `update_order_prices`;
+DROP PROCEDURE IF EXISTS `update_prijs`;
+DROP FUNCTION IF EXISTS `get_most_orders_in_month`;
 
 DELIMITER //
 
@@ -19,9 +27,8 @@ BEGIN
 END;
 //
 
-DELIMITER ;
-
 CREATE TRIGGER `set_factuurprijs` BEFORE INSERT ON `Orderregels`
+FOR EACH ROW
 BEGIN
     DECLARE factuurprijs DECIMAL;
 
@@ -33,32 +40,29 @@ BEGIN
     SET NEW.factuurprijs = factuurprijs;
 END;
 
+//
+
 CREATE TRIGGER `update_order_prices` AFTER INSERT ON `Orderregels`
+FOR EACH ROW
 BEGIN
-    DECLARE old_totaalprijs DECIMAL;
-    
+    DECLARE new_total DECIMAL;
 
-    SELECT `Producten`.`prijs` 
-        INTO factuurprijs
-        FROM `Producten` 
-        WHERE `Producten`.`productId` = NEW.productId;
+    -- Bereken de nieuwe totaalprijs voor de bestelling
+    SELECT SUM(`aantal` * `factuurprijs`) 
+        INTO new_total 
+        FROM `Orderregels` 
+        WHERE `orderId` = NEW.orderId;
 
-    
-
-    SELECT `totaalprijs` 
-        INTO old_totaalprijs 
-        FROM `Orders` 
-        WHERE `Orders`.`orderId` = `Orderregels`.`orderId`;
-    UPDATE `Orders` SET `totaalprijs` = (old_totaalprijs + (NEW.aantal * NEW.factuurprijs)); 
+    -- Update de totaalprijs van de bestelling in de Orders tabel
+    UPDATE `Orders` SET `totaalprijs` = new_total
+    WHERE `orderId` = NEW.orderId;
 END;
+
+//
 
 -- Stored procedure --
 -- Hiermee kan je de prijs updaten op het moment dat je de productId en de nieuwe prijs doorgeeft wanneer je de procedure uitvoert --
 -- Terug te vinden onder het Yerothia datbase en dan Routines --
-
-DROP PROCEDURE IF EXISTS `update_prijs`
-
-DELIMITER //
 
 CREATE PROCEDURE `update_prijs`(
     IN update_productId INT,
@@ -72,13 +76,7 @@ BEGIN
     SELECT CONCAT('Prijs van product met ID ', update_productId, ' is bijgewerkt naar ', update_prijs) AS Message;
 END //
 
-DELIMITER ;
-
-CALL update_prijs(p_productId, p_newPrice);
-
-DROP FUNCTION IF EXISTS `get_most_orders_in_month`;
-
-DELIMITER //
+-- CALL update_prijs(p_productId, p_newPrice);
 
 CREATE FUNCTION `get_most_orders_in_month`()
 RETURNS INT
@@ -94,30 +92,5 @@ END //
 
 DELIMITER ;
 
-CALL get_most_orders_in_month;
-
-
--- INNER JOIN --
--- Toont emails langs het KvK-nummer --
-SELECT klanten.kvkNummer, emails.email
-FROM klanten
-INNER JOIN accounts ON klanten.accountId = accounts.accountId
-INNER JOIN emails ON accounts.emailId = emails.emailId;
-
-
--- INNER JOIN --
--- Toont bezorgadres en contactpersoon per order --
-SELECT contacten.*, orders.orderId, facturen.orderId, adressen.*
-FROM orders
-INNER JOIN facturen ON facturen.orderId = orders.orderId
-INNER JOIN adressen ON orders.adresId = adressen.adresId
-INNER JOIN contacten ON contacten.contactId = adressen.contactId;
-
--- INNER JOIN --
--- Toont factuuradres en contactpersoon per factuur --
-SELECT contacten.*, orders.orderId, facturen.orderId, adressen.*
-FROM orders
-INNER JOIN facturen ON facturen.orderId = orders.orderId
-INNER JOIN adressen ON facturen.adresId = adressen.adresId
-INNER JOIN contacten ON contacten.contactId = adressen.contactId;
+COMMIT;
 

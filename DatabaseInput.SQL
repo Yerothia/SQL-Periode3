@@ -148,19 +148,19 @@ INSERT INTO `AutomatischeIncassos` (`betaalId`, `abonnementId`, `status`, `incas
 (9, 9, 'Mislukt', 59.99);
 
 -- Voeg extra willekeurige ordergegevens toe aan de tabel `Orders`
-INSERT INTO `Orders` (`status`, `orderdatum`, `adresId`) VALUES 
-('Geleverd',  '2024-03-20', 1),
-('Betaald','2024-03-18', 2),
-('Winkelmand', '2024-03-16', 3),
-('Betaald', '2024-03-14', 4),
-('Geleverd', '2024-03-12', 5),
-('Winkelmand', '2024-03-10', 6),
-('Winkelmand', '2024-03-08', 7),
-('Winkelmand', '2024-03-06', 8),
-('Geannuleerd', '2024-03-04', 9),
-('Geleverd', '2024-03-20', 10),
-('Geleverd', '2024-03-20', 11),
-('Geleverd', '2024-03-20', 12);
+INSERT INTO `Orders` (`orderId`, `status`, `orderdatum`, `adresId`) VALUES 
+(1, 'Geleverd',  '2024-03-20', 1),
+(2, 'Betaald','2024-03-18', 2),
+(3, 'Winkelmand', '2024-03-16', 3),
+(4, 'Betaald', '2024-03-14', 4),
+(5, 'Geleverd', '2024-03-12', 5),
+(6, 'Winkelmand', '2024-03-10', 6),
+(7, 'Winkelmand', '2024-03-08', 7),
+(8, 'Winkelmand', '2024-03-06', 8),
+(9, 'Geannuleerd', '2024-03-04', 9),
+(10, 'Geleverd', '2024-03-20', 10),
+(11, 'Geleverd', '2024-03-20', 11),
+(12, 'Geleverd', '2024-03-20', 12);
 
 -- Voeg extra willekeurige orderregelgegevens toe aan de tabel `Orderregels`
 INSERT INTO `Orderregels` (`orderId`, `productId`, `aantal`) VALUES 
